@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import * as M from './sim.mjs?v=0.18.0';
-import * as F from './finance.mjs?v=0.18.0';
-import * as T from './takeover.mjs?v=0.18.0';
-import {settleOffline} from './offline.mjs?v=0.18.0';
-import {PACE,paceError,paceGoals} from './pace.mjs?v=0.18.0';
+import * as M from './sim.mjs?v=0.19.0';
+import * as F from './finance.mjs?v=0.19.0';
+import * as T from './takeover.mjs?v=0.19.0';
+import {settleOffline} from './offline.mjs?v=0.19.0';
+import {PACE,paceError,paceGoals} from './pace.mjs?v=0.19.0';
 const clone=x=>structuredClone(x),linked=()=>{let s=M.createGame();for(let i=0;i<3;i++)assert.equal(M.connect(s,s.player.nodes[i].id,s.player.nodes[i+1].id),null);return s;};
 function research(s,id){M.build(s,'lab','paper',1,1);s.player.research.unlocked=['process'];s.tick=PACE[id]-1;let cash=s.player.cash;assert(M.startResearch(s,id));assert.equal(s.player.cash,cash);s.tick++;assert.equal(M.startResearch(s,id),null);for(let i=0;i<M.TECHS[id].points;i++)M.step(s);assert(s.player.research.unlocked.includes(id));M.validate(s);}
 for(let id of ['packaging','cloud'])research(linked(),id);
@@ -25,7 +25,7 @@ old=oldM.createGame();let child=old.competitors.find(c=>c.id==='r5');child.equit
 old=oldM.createGame();oldM.build(old,'lab','paper',1,1);old.player.research.unlocked=['process'];assert.equal(oldM.startResearch(old,'cloud'),null);old.player.research.active.progress=179;migrated=M.migrate(old);M.step(migrated);assert(migrated.player.research.unlocked.includes('cloud'));assert.equal(migrated.player.cash,old.player.cash-61);M.validate(migrated);
 old=oldM.createGame();oldM.build(old,'port','paper',1,1);oldM.unlockCity(old,'cheolwon');migrated=M.migrate(old);assert(migrated.player.cities.includes('cheolwon'));assert.equal(M.build(migrated,'store','paper',1,1,'cheolwon').kind,'store');M.validate(migrated);
 // Baseline early economy is byte-equivalent apart from pace metadata/logs, and all recipes unchanged.
-assert.deepEqual(M.RECIPES,{paper:{input:'wood',qty:1,cost:12},furniture:{input:'wood',qty:3,cost:45},packaging:{input:'paper',qty:2,cost:24}});let a=linked();for(let i=0;i<1800;i++)M.step(a);assert.equal(a.player.cash,149002);let prior=clone(a.player);for(let n of prior.nodes){delete n.stock.component;delete n.stock.sensor;}for(let b of [prior,prior.regional.cheolwon]){for(let key of ['price','brand','sales','daily'])delete b[key].sensor;}assert.equal(createHash('sha256').update(JSON.stringify(prior)).digest('hex'),'752f42572c856183c44cb1c58e02e14a4002275983f560866aac20b6372ff9e7');let windows=clone(a.marketWindows);delete windows['hanbit:sensor'];delete windows['cheolwon:sensor'];assert.equal(createHash('sha256').update(JSON.stringify(windows)).digest('hex'),'dfc18a301c2b040491caac841c8608021d1d4fda58d8838acafa5e4007022d94');
+assert.deepEqual(M.RECIPES,{paper:{input:'wood',qty:1,cost:12},furniture:{input:'wood',qty:3,cost:45},packaging:{input:'paper',qty:2,cost:24}});let a=linked();for(let i=0;i<1800;i++)M.step(a);assert.equal(a.player.cash,149002);let prior=clone(a.player);for(let n of prior.nodes){delete n.stock.component;delete n.stock.sensor;for(let p of ['wheat','flour','bread','milk','yogurt','grapes','juice'])delete n.stock[p];}for(let b of [prior,prior.regional.cheolwon]){for(let key of ['price','brand','sales','daily']){delete b[key].sensor;for(let p of ['bread','yogurt','juice'])delete b[key][p];}}assert.equal(createHash('sha256').update(JSON.stringify(prior)).digest('hex'),'752f42572c856183c44cb1c58e02e14a4002275983f560866aac20b6372ff9e7');let windows=clone(a.marketWindows);delete windows['hanbit:sensor'];delete windows['cheolwon:sensor'];for(let city of ['hanbit','cheolwon'])for(let p of ['bread','yogurt','juice'])delete windows[city+':'+p];assert.equal(createHash('sha256').update(JSON.stringify(windows)).digest('hex'),'dfc18a301c2b040491caac841c8608021d1d4fda58d8838acafa5e4007022d94');
 // Offline shares clock and telemetry; no actions are auto-started at unlocks.
 a=linked();a.tick=850;let online=clone(a);for(let i=0;i<600;i++)M.step(online,{offline:true});let off=await settleOffline(a,a.lastSettledAt+600000);assert.deepEqual(off.state.pace,online.pace);assert.deepEqual(off.state.player,online.player);assert.equal(off.state.tick,1450);assert.equal(off.state.player.research.active,null);assert.equal((await settleOffline(off.state,off.state.lastSettledAt)).report,null);M.validate(off.state);
 // Rolling group result is actual ownership-weighted operating income, not new cash or takeover proceeds.
