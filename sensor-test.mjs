@@ -1,4 +1,4 @@
-import fs from 'node:fs';import assert from 'node:assert/strict';import * as M from './sim.mjs?v=0.18.0';import {settleOffline} from './offline.mjs?v=0.18.0';
+import fs from 'node:fs';import assert from 'node:assert/strict';import * as M from './sim.mjs?v=0.19.0';import {settleOffline} from './offline.mjs?v=0.19.0';
 const clone=x=>structuredClone(x),link=(s,a,b)=>assert.equal(M.connect(s,a.id,b.id),null);function seed(){let s=M.createGame();for(let i=0;i<3;i++)link(s,s.player.nodes[i],s.player.nodes[i+1]);M.upgradeEdge(s,s.player.edges[1].id);M.build(s,'lab','paper',1,1);M.startResearch(s,'process');for(let i=0;i<90;i++)M.step(s);M.startResearch(s,'logistics');while(s.tick<2400)M.step(s);return s;}
 let base=seed(),events={};let seed2=clone(base);assert.equal(M.startResearch(seed2,'precision'),null);for(let i=0;i<180;i++)M.step(seed2);for(let k of M.SENSOR)M.build(seed2,k,'sensor',1,1);let ns=seed2.player.nodes.filter(n=>M.SENSOR.includes(n.kind));link(seed2,ns[0],ns[1]);link(seed2,ns[1],ns[2]);M.validate(seed2);
 let rows=[];
