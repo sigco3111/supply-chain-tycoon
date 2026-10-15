@@ -1,11 +1,11 @@
-import {paceError,playerGroup} from './pace.mjs?v=0.14.0';
+import {paceError,playerGroup} from './pace.mjs?v=0.15.0';
 // Fictional integer-share ledger. No real-world money or external services.
 export const FINANCE_FEE=.02;
 export const IPO_MIN_TICKS=3600;
 export const financeCompanies=s=>[s.player,s.ai,...s.competitors];
 const find=(s,id)=>financeCompanies(s).find(c=>c.id===id);
 const sum=o=>Object.values(o).reduce((a,b)=>a+b,0);
-const assetCosts={mine:2400,factory:4800,warehouse:2200,store:3600,ad:6500,lab:7000,collector:5500,datacenter:11000,servicehub:6500,port:8500};
+const assetCosts={supplier:8000,assembler:14000,industrial:8000,mine:2400,factory:4800,warehouse:2200,store:3600,ad:6500,lab:7000,collector:5500,datacenter:11000,servicehub:6500,port:8500};
 export function assetValue(c){return c.cash+c.nodes.reduce((t,n)=>t+Math.floor(assetCosts[n.kind]*n.level*.6),0);}
 export function addFinance(s){s.finance={publicCash:2000000,initialPublicCash:2000000,fees:0,orders:[],nextOrder:1};for(let c of financeCompanies(s))initCompanyFinance(c,c!==s.player&&c.tier==='major');return s;}
 export function initCompanyFinance(c,listed=false){c.ledger.finance=0;c.equity={listed,total:listed?200:100,holders:{['founder:'+c.id]:100,...(listed?{public:100}:{})},price:Math.min(10000000,Math.max(20,Math.round(assetValue(c)/(listed?200:100)))),profitDays:[],dayOperating:0,lastIssueTick:-10000,lastTradeTick:-10000};}

@@ -14,3 +14,5 @@ body{height:100vh;height:100dvh;display:flex;flex-direction:column}body>header,b
 .minimap-panel{position:absolute;z-index:2;right:30px;top:80px;width:192px;border:1px solid #38536c;border-radius:11px;background:#102135e8;overflow:hidden;box-shadow:0 8px 28px #0005}.minimap-panel button{display:block;width:100%;border:0;border-radius:0;text-align:left;font-size:11px;min-height:44px;background:#15283a}.minimap-panel canvas{display:block;width:190px;height:120px;touch-action:none;cursor:crosshair;outline-offset:-3px}.minimap-panel.collapsed{width:96px}.minimap-panel.collapsed canvas{display:none}@media(max-width:650px){.minimap-panel{right:16px;top:72px}}
 
 #offline-overlay{position:fixed;inset:0;z-index:9999;background:#08111bf5;display:grid;place-items:center;padding:24px;text-align:center;color:#dce9f4}#offline-overlay>div{max-width:520px}#offline-overlay small{letter-spacing:3px;color:#70f4db}#offline-overlay strong{display:block;font-size:42px;color:#70f4db;margin-top:24px}#offline-overlay p{color:#91a6b8;line-height:1.8}#offline-overlay h2{font-size:clamp(23px,5vw,30px)}
+
+button{-webkit-tap-highlight-color:transparent}
