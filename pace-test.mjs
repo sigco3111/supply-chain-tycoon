@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import * as M from './sim.mjs?v=0.15.0';
-import * as F from './finance.mjs?v=0.15.0';
-import * as T from './takeover.mjs?v=0.15.0';
-import {settleOffline} from './offline.mjs?v=0.15.0';
-import {PACE,paceError,paceGoals} from './pace.mjs?v=0.15.0';
+import * as M from './sim.mjs?v=0.16.0';
+import * as F from './finance.mjs?v=0.16.0';
+import * as T from './takeover.mjs?v=0.16.0';
+import {settleOffline} from './offline.mjs?v=0.16.0';
+import {PACE,paceError,paceGoals} from './pace.mjs?v=0.16.0';
 const clone=x=>structuredClone(x),linked=()=>{let s=M.createGame();for(let i=0;i<3;i++)assert.equal(M.connect(s,s.player.nodes[i].id,s.player.nodes[i+1].id),null);return s;};
 function research(s,id){M.build(s,'lab','paper',1,1);s.player.research.unlocked=['process'];s.tick=PACE[id]-1;let cash=s.player.cash;assert(M.startResearch(s,id));assert.equal(s.player.cash,cash);s.tick++;assert.equal(M.startResearch(s,id),null);for(let i=0;i<M.TECHS[id].points;i++)M.step(s);assert(s.player.research.unlocked.includes(id));M.validate(s);}
 for(let id of ['packaging','cloud'])research(linked(),id);
