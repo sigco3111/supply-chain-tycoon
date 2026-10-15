@@ -3,7 +3,7 @@ import {createGame,step,validate,companies,connect,migrate}from './sim.mjs';
 import {issueShares,quoteBuyback,buyback,holdings}from './finance.mjs';
 import {takeoverDay}from './takeover.mjs';
 import {quoteFriendly,friendlyIssue,quotePoison,armPoison,defenseDay,financeAI}from './defense.mjs';
-function setup(){let s=createGame();s.campaignId='run-test-defense';s.tick=600;issueShares(s,100);s.tick=1020;issueShares(s,100);s.tick=1440;issueShares(s,100);return s;}
+function setup(){let s=createGame();s.campaignId='run-test-defense';s.tick=3600;issueShares(s,100);s.tick=4020;issueShares(s,100);s.tick=4440;issueShares(s,100);return s;}
 function hostile(s,n=220){let e=s.player.equity;e.holders.public-=n;e.holders.a=n;}
 let s=setup();hostile(s,180);let q=quoteBuyback(s,10);assert(q.attackers[0].after>q.attackers[0].before);let founder=s.player.equity.holders['founder:p'];buyback(s,10);assert.equal(s.player.equity.holders['founder:p'],founder);validate(s);
 s=setup();hostile(s,220);q=quoteFriendly(s,100);assert(!q.error);assert(q.attackers[0].after<.5);let cash=s.player.cash,fc=s.finance.friendlyCash;friendlyIssue(s,100);assert.equal(s.player.cash,cash+q.net);assert.equal(s.finance.friendlyCash,fc-q.gross);assert.equal(s.player.equity.holders.friendly,100);assert.equal(s.player.equity.total,500);assert(quoteFriendly(s).error);validate(s);s.player.equity.profitDays=[10000];let before=s.finance.friendlyCash;defenseDay(s);assert.equal(s.finance.friendlyCash-before,200);validate(s);s.tick=s.player.defense.friendlyContract.expiresTick-300;defenseDay(s);assert(s.player.defense.friendlyContract.warned);s.tick+=300;defenseDay(s);assert.equal(s.player.defense.friendlyContract,null);assert.equal(s.player.equity.holders.friendly,100);validate(s);
@@ -16,7 +16,7 @@ s=setup();hostile(s);takeoverDay(s,true);s.tick+=300;takeoverDay(s,true);assert(
 // Friendly dilution prevents loss, poison before pending decision; false50% remains safe.
 s=setup();hostile(s);takeoverDay(s);friendlyIssue(s,100);s.tick+=300;takeoverDay(s);assert.equal(s.finance.loss,null);validate(s);
 // Actual-money monthlyAI and fresh IPO protected. No wallet refill or founder sale.
-s=setup();s.player.equity.listedAtTick=s.tick;s.tick=1800;financeAI(s);assert(!s.finance.tenders.some(t=>t.target==='p'));assert(!s.finance.orders.some(t=>t.target==='p'));assert(s.finance.tenders.length+s.finance.orders.length>0);validate(s);
+s=setup();s.player.equity.listedAtTick=s.tick;s.tick=5400;financeAI(s);assert(!s.finance.tenders.some(t=>t.target==='p'));assert(!s.finance.orders.some(t=>t.target==='p'));assert(s.finance.tenders.length+s.finance.orders.length>0);validate(s);
 // Active hostile/defense save/UI fixture with real original cash and matched ownership.
 s=setup();hostile(s,150);takeoverDay(s);s.player.cash+=50000;s.player.initialCash+=50000;validate(s);fs.writeFileSync('/tmp/flow-defense-test-save.json',JSON.stringify(s));
 // NewAI5k ticks through takeover/defenses (freeze test ends on loss), ledgers and funding.
