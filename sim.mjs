@@ -1,7 +1,7 @@
-import {paceError,initPace,recordPace,paceGoals,validatePace} from './pace.mjs?v=0.17.0';
-import {addDefense,initDefense,defenseDay,financeAI,validateDefense} from './defense.mjs?v=0.17.0';
-import {addTakeovers,takeoverDay,validateTakeovers,rootCompany,groupCompanies,playerControls} from './takeover.mjs?v=0.17.0';
-import {addFinance,initCompanyFinance,financeDay,validateFinance} from './finance.mjs?v=0.17.0';
+import {paceError,initPace,recordPace,paceGoals,validatePace} from './pace.mjs?v=0.18.0';
+import {addDefense,initDefense,defenseDay,financeAI,validateDefense} from './defense.mjs?v=0.18.0';
+import {addTakeovers,takeoverDay,validateTakeovers,rootCompany,groupCompanies,playerControls} from './takeover.mjs?v=0.18.0';
+import {addFinance,initCompanyFinance,financeDay,validateFinance} from './finance.mjs?v=0.18.0';
 // Pure deterministic economy. Currency and inventory use integer credits/units.
 export const rivals=s=>[s.ai,...(s.competitors||[])];
 export const companies=s=>[s.player,...rivals(s)];
