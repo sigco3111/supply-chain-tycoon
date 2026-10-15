@@ -1,5 +1,5 @@
-import {financeCompanies,holdings,changeCash,quoteTrade,placeOrder,quoteBuyback,buyback} from './finance.mjs?v=0.11.0';
-import {quoteTender,openTender} from './takeover.mjs?v=0.11.0';
+import {financeCompanies,holdings,changeCash,quoteTrade,placeOrder,quoteBuyback,buyback} from './finance.mjs?v=0.12.0';
+import {quoteTender,openTender} from './takeover.mjs?v=0.12.0';
 const news=(s,text)=>{s.logs.unshift({tick:s.tick,text});s.logs=s.logs.slice(0,35);};
 export function initDefense(c){c.defense={poison:null,lastPoisonTick:-10000,lastFriendlyTick:-10000,friendlyContract:null,lastAttackTick:-10000};c.equity.listedAtTick=c.equity.listed?0:null;}
 export function addDefense(s){s.campaignId='run-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);s.finance.friendlyCash=500000;s.finance.initialFriendlyCash=500000;s.finance.loss=null;s.finance.deferredLoss=null;for(let c of financeCompanies(s)){initDefense(c);if(c===s.player&&c.equity.listed)c.equity.listedAtTick=s.tick;}return s;}
