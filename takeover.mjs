@@ -1,4 +1,4 @@
-import {financeCompanies,holdings,changeCash,FINANCE_FEE} from './finance.mjs?v=0.12.0';
+import {financeCompanies,holdings,changeCash,FINANCE_FEE} from './finance.mjs?v=0.13.0';
 const find=(s,id)=>financeCompanies(s).find(c=>c.id===id);
 const news=(s,text)=>{s.logs.unshift({tick:s.tick,text});s.logs=s.logs.slice(0,35);};
 export function addTakeovers(s){let f=s.finance;Object.assign(f,{tenders:[],nextTender:1,founderCash:{},alerts:{},takeoverHistory:[],dominated:false});for(let c of financeCompanies(s)){c.controller=null;f.founderCash['founder:'+c.id]=0;}return s;}
