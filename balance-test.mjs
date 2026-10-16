@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {createGame,step,connect,build,upgradeEdge,startResearch,validate,migrate,KINDS,TECHS} from './sim.mjs?v=0.21.0';
-import {quoteIssue,IPO_MIN_TICKS} from './finance.mjs?v=0.21.0';
+import {createGame,step,connect,build,upgradeEdge,startResearch,validate,migrate,KINDS,TECHS} from './sim.mjs?v=0.22.0';
+import {quoteIssue,IPO_MIN_TICKS} from './finance.mjs?v=0.22.0';
 const link=(s,a,b)=>assert.equal(connect(s,a.id,b.id),null);
 function seed(){let s=createGame();for(let i=0;i<3;i++)link(s,s.player.nodes[i],s.player.nodes[i+1]);assert(upgradeEdge(s,s.player.edges[1].id));for(let t=0;t<1800;t++)step(s);return s;}
 let guard=createGame();guard.tick=3599;assert(quoteIssue(guard).error);guard.tick=3600;assert(!quoteIssue(guard).error);assert.equal(IPO_MIN_TICKS,3600);assert.equal(KINDS.lab.fixed,1);assert.equal(KINDS.ad.fixed,2);assert.equal(TECHS.process.cost,3000);assert.equal(TECHS.logistics.cost,3000);
