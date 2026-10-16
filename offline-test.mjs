@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createGame,step,connect,companies,validate,migrate} from './sim.mjs?v=0.28.0';
-import {offlinePlan,settleOffline} from './offline.mjs?v=0.28.0';
+import {createGame,step,connect,companies,validate,migrate} from './sim.mjs?v=0.29.0';
+import {offlinePlan,settleOffline} from './offline.mjs?v=0.29.0';
 const base=()=>{let s=createGame();s.lastSettledAt=1000000;for(let i=0;i<3;i++)assert.equal(connect(s,s.player.nodes[i].id,s.player.nodes[i+1].id),null);return s;};
 let s=base(),online=structuredClone(s),n=600;for(let i=0;i<n;i++)step(online);let inputBefore=JSON.stringify(s);let {state:a,report:r}=await settleOffline(s,s.lastSettledAt+n*1000);let comparable=v=>{let o=structuredClone(v);delete o.lastSettledAt;delete o.offline;return o;};assert.deepEqual(comparable(a),comparable(online),'identical stable online/offline economy');assert.equal(r.seconds,600);assert.equal(r.cashChange,a.player.cash-s.player.cash);assert.equal(r.ledger.revenue,a.player.ledger.revenue-s.player.ledger.revenue);assert.equal(JSON.stringify(s),inputBefore);assert.equal((await settleOffline(a,a.lastSettledAt)).report,null);assert.equal(offlinePlan(a,a.lastSettledAt-1000).seconds,0);assert.throws(()=>offlinePlan(a,NaN));assert.equal(offlinePlan(s,1e12).seconds,28800);
 let max=await settleOffline(s,s.lastSettledAt+86400000);assert.equal(max.report.seconds,28800);assert.equal(max.report.capped,true);assert.equal(max.state.tick,s.tick+28800);validate(max.state);assert.equal((await settleOffline(max.state,s.lastSettledAt+86400000)).report,null);
