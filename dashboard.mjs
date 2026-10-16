@@ -1,9 +1,9 @@
-import {E_RECIPES,E_PRODUCTS} from './electronics.mjs?v=0.27.0';
-import {ePanel} from './electronics-ui.mjs?v=0.27.0';
-import {b2Panel} from './b2b-ui.mjs?v=0.27.0';
-import {donut,comparisonRows,marketPies,brandGauges} from './comparisons.mjs?v=0.27.0';
-import {observed} from './observatory.mjs?v=0.27.0';
-import {FOOD_RECIPES,foodTech} from './food.mjs?v=0.27.0';
+import {E_RECIPES,E_PRODUCTS} from './electronics.mjs?v=0.28.0';
+import {ePanel} from './electronics-ui.mjs?v=0.28.0';
+import {b2Panel} from './b2b-ui.mjs?v=0.28.0';
+import {donut,comparisonRows,marketPies,brandGauges} from './comparisons.mjs?v=0.28.0';
+import {observed} from './observatory.mjs?v=0.28.0';
+import {FOOD_RECIPES,foodTech} from './food.mjs?v=0.28.0';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Math.round(n).toLocaleString('ko-KR');
 const sum=(a,i)=>a.reduce((v,r)=>v+(r[i]||0),0);

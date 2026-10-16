@@ -1,10 +1,11 @@
+import{initStrategy}from'./strategy-ledger.mjs';
 import assert from 'node:assert/strict';import fs from 'node:fs';
 import {createGame,step,validate,companies,connect,migrate}from './sim.mjs';
 import {issueShares,quoteBuyback,buyback,holdings}from './finance.mjs';
 import {takeoverDay}from './takeover.mjs';
 import {quoteFriendly,friendlyIssue,quotePoison,armPoison,defenseDay,financeAI}from './defense.mjs';
 function setup(){let s=createGame();s.campaignId='run-test-defense';s.tick=3600;issueShares(s,100);s.tick=4020;issueShares(s,100);s.tick=4440;issueShares(s,100);return s;}
-function hostile(s,n=220){let e=s.player.equity;e.holders.public-=n;e.holders.a=n;}
+function hostile(s,n=220){let e=s.player.equity;e.holders.public-=n;e.holders.a=n;delete s.strategy;initStrategy(s);}
 let s=setup();hostile(s,180);let q=quoteBuyback(s,10);assert(q.attackers[0].after>q.attackers[0].before);let founder=s.player.equity.holders['founder:p'];buyback(s,10);assert.equal(s.player.equity.holders['founder:p'],founder);validate(s);
 s=setup();hostile(s,220);q=quoteFriendly(s,100);assert(!q.error);assert(q.attackers[0].after<.5);let cash=s.player.cash,fc=s.finance.friendlyCash;friendlyIssue(s,100);assert.equal(s.player.cash,cash+q.net);assert.equal(s.finance.friendlyCash,fc-q.gross);assert.equal(s.player.equity.holders.friendly,100);assert.equal(s.player.equity.total,500);assert(quoteFriendly(s).error);validate(s);s.player.equity.profitDays=[10000];let before=s.finance.friendlyCash;defenseDay(s);assert.equal(s.finance.friendlyCash-before,200);validate(s);s.tick=s.player.defense.friendlyContract.expiresTick-300;defenseDay(s);assert(s.player.defense.friendlyContract.warned);s.tick+=300;defenseDay(s);assert.equal(s.player.defense.friendlyContract,null);assert.equal(s.player.equity.holders.friendly,100);validate(s);
 // Poison paid setup and35% rights, founders only with personal cash, issued upper cap, no guarantee.

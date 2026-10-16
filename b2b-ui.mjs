@@ -1,7 +1,7 @@
-import {H_GOODS} from './appliances.mjs?v=0.27.0';
-import {V_GOODS} from './vehicles.mjs?v=0.27.0';
-import {B2_PRODUCTS,DEFAULT_TRADE_PRICES,setOffer,setOrder,canOffer,needCapacity} from './b2b.mjs?v=0.27.0';
-import {observedB2} from './observatory.mjs?v=0.27.0';
+import {H_GOODS} from './appliances.mjs?v=0.28.0';
+import {V_GOODS} from './vehicles.mjs?v=0.28.0';
+import {B2_PRODUCTS,DEFAULT_TRADE_PRICES,setOffer,setOrder,canOffer,needCapacity} from './b2b.mjs?v=0.28.0';
+import {observedB2} from './observatory.mjs?v=0.28.0';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Math.round(n).toLocaleString('ko-KR');
 const firm=(s,id)=>[s.player,s.ai,...s.competitors].find(c=>c.id===id),sum=(rows,i)=>rows.reduce((v,r)=>v+r[i],0);

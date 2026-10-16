@@ -1,7 +1,7 @@
-import {M_PRODUCTS} from './meat.mjs?v=0.27.0';
-import {H_GOODS,H_PRODUCTS,H_PRICES,H_TECHS,H_KINDS,H_RECIPES,hTech} from './appliances.mjs?v=0.27.0';
-import {V_GOODS,V_PRODUCTS,V_PRICES,V_TECHS,V_KINDS,V_RECIPES,vTech} from './vehicles.mjs?v=0.27.0';
-import {FOOD_RECIPES,F_NEW_GOODS} from './food.mjs?v=0.27.0';
+import {M_PRODUCTS} from './meat.mjs?v=0.28.0';
+import {H_GOODS,H_PRODUCTS,H_PRICES,H_TECHS,H_KINDS,H_RECIPES,hTech} from './appliances.mjs?v=0.28.0';
+import {V_GOODS,V_PRODUCTS,V_PRICES,V_TECHS,V_KINDS,V_RECIPES,vTech} from './vehicles.mjs?v=0.28.0';
+import {FOOD_RECIPES,F_NEW_GOODS} from './food.mjs?v=0.28.0';
 // Original compressed game recipes, not real-world manufacturing specifications.
 export const E_GOODS=['computer','smartphone'];
 export const A_TECHS=['computing','computeModule','mobile'];
