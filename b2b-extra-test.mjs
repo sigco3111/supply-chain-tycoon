@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import * as M from './sim.mjs';
+import {fixture} from './b2b-test.mjs';
+import {setOrder,setOffer,reservedCash} from './b2b.mjs';
+import {b2Panel} from './b2b-ui.mjs';
+import {playerControls} from './takeover.mjs';
+import {settleOffline} from './offline.mjs';
+import fs from 'node:fs';
+let {s,a,b}=fixture(),other=s.competitors[0];other.status='active';other.activationTick=0;other.controller='p';let mill=M.build(s,'mill','flour',400,400,'hanbit',other);assert.equal(setOrder(s,other,{product:'wheat',seller:s.ai.id,from:a.id,to:mill.id,price:8,target:8,cap:4,enabled:true},M.b2API),null);M.step(s);assert.equal(s.b2b.shipments.reduce((v,t)=>v+t.qty,0),M.capacity(a));assert.equal(s.b2b.orders[1].lastQty,0);assert(s.b2b.orders[1].reason.includes('한도'));
+({s,a,b}=fixture());s.b2b.offers[0].safety=23;M.step(s);assert.equal(s.b2b.shipments[0].qty,1);s.b2b.offers[0].price=1;M.step(s);assert(s.b2b.orders[0].reason.includes('단가'));
+({s,a,b}=fixture());s.player.cash=100;s.b2b.offers[0].price=1000;s.b2b.orders[0].price=1000;M.step(s);assert.equal(s.b2b.shipments.length,0);assert(s.b2b.orders[0].reason.includes('현금'));
+({s,a,b}=fixture());b.stock.flour=M.limit(b)-1;M.step(s);assert.equal(s.b2b.shipments[0].qty,1);M.step(s);M.validate(s);
+({s,a,b}=fixture());let x=M.build(s,'store','bread',200,500);assert(setOrder(s,s.player,{product:'paper',seller:s.ai.id,from:a.id,to:x.id,price:8,target:8,cap:4,enabled:true},M.b2API));let y=M.build(s,'mill','flour',200,600,'cheolwon');if(y)assert(setOrder(s,s.player,{product:'wheat',seller:s.ai.id,from:a.id,to:y.id,price:8,target:8,cap:4,enabled:true},M.b2API));
+({s,a,b}=fixture());s.ai.controller='p';s.ai.status='acquired';setOffer(s,s.ai,{from:a.id,product:'wheat',price:8,safety:8,cap:4,enabled:true},M.b2API);setOrder(s,s.player,{product:'wheat',seller:s.ai.id,from:a.id,to:b.id,price:8,target:8,cap:4,enabled:true},M.b2API);for(let i=0;i<5;i++)M.step(s);let samples=s.observatory.recent,rev=samples.reduce((v,a)=>v+a.firms.filter(r=>['p',s.ai.id].includes(r[0])).reduce((v,r)=>v+r[1],0),0),html=b2Panel(s,{...M,playerControls});assert(html.includes('내부 B2B 매출 제거'));assert.equal(rev,128);assert(html.includes('연결 매출</span><b>0 C'));
+({s,a,b}=fixture());s.lastSettledAt=1e6;let start=performance.now(),off=await settleOffline(s,1e6+28800000);M.validate(off.state);let continued=await settleOffline(off.state,off.state.lastSettledAt+10000);M.validate(continued.state);assert.equal(continued.report.companies.length,13);assert.equal(off.state.tick-s.tick,28800);let bytes=JSON.stringify(off.state).length;fs.writeFileSync('/tmp/b2-8h.json',JSON.stringify(off.state));console.log(JSON.stringify({eightHoursMs:Math.round(performance.now()-start),bytes,shipments:off.state.b2b.shipments.length,orders:off.state.b2b.orders.length,paid:off.state.b2b.balances.p?.paid,received:off.state.b2b.balances[s.ai.id]?.received}));
+let old=M.migrate(JSON.parse(fs.readFileSync('/tmp/food-actual018.json')));M.validate(old);assert.equal(old.b2b.orders.length,0);console.log('PASS B2 extra:multi-buyer shared cap/safety/cash/room/terms/groups/internal revenue0/8h/actual018 migration');
