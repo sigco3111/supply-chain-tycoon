@@ -1,8 +1,8 @@
-import {H_GOODS} from './appliances.mjs?v=0.28.0';
-import {V_GOODS,V_DEMAND} from './vehicles.mjs?v=0.28.0';
-import {E_GOODS,E_PRODUCTS,E_RAW,E_PARTS,E_RECIPES,E_KINDS,eTech} from './electronics.mjs?v=0.28.0';
-import {observedIndustry} from './observatory.mjs?v=0.28.0';
-import {donut} from './comparisons.mjs?v=0.28.0';
+import {H_GOODS} from './appliances.mjs?v=0.29.0';
+import {V_GOODS,V_DEMAND} from './vehicles.mjs?v=0.29.0';
+import {E_GOODS,E_PRODUCTS,E_RAW,E_PARTS,E_RECIPES,E_KINDS,eTech} from './electronics.mjs?v=0.29.0';
+import {observedIndustry} from './observatory.mjs?v=0.29.0';
+import {donut} from './comparisons.mjs?v=0.29.0';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=n=>Math.round(n).toLocaleString('ko-KR');
 export function eRecipeText(k){let r=E_RECIPES[k];return r?(Object.entries(r.inputs).map(([p,q])=>E_PRODUCTS[p].name+' '+q).join(' + ')||'외부 소재 조달')+' → '+E_PRODUCTS[r.output].name+' 1 · '+r.cost+' C/개':'도시전체 부품별 산업수요1개/틱. 실제보유상품만 납품하며 B2B 수령상품도 납품할 수 있습니다.';}
 export function eBuildSection(c,M){let list=Object.entries(E_RECIPES).map(([k,r])=>({k,p:r.output,tech:r.tech}));for(let p of Object.keys(E_PRODUCTS))for(let k of ['warehouse','port',...(E_PARTS.includes(p)?['electronicsink']:[]),...([...E_GOODS,...V_GOODS,...H_GOODS].includes(p)?['store','ad']:[])])list.push({k,p,tech:eTech(p)});return `<h2>전자·차량 소재와 조립</h2><p>45분부터 소재·부품,90분부터 컴퓨터·연산모듈·스마트폰,120분부터 철강·모터·자동차·드론과TV·게임기연구. 모든 입력이 모여야 조립합니다. 완제품은 매장에서 가계 소비자에게, 모듈은 폰 재료/B2B로만 판매합니다. 기존 정밀부품·산업센서와 호환되지 않습니다.</p><div class="build-grid">${list.map(({k,p,tech})=>`<button data-food-build="${k}" data-food-product="${p}" ${!c.research.unlocked.includes(tech)||c.cash<M.KINDS[k].cost?'disabled':''}><b>${E_PRODUCTS[p].name} · ${M.KINDS[k].name}${!c.research.unlocked.includes(tech)?' 🔒':''}</b><small>${fmt(M.KINDS[k].cost)} C · 유지${M.KINDS[k].fixed} C/틱</small><small>${E_RECIPES[k]?eRecipeText(k):k==='electronicsink'?'가계소비와 별도 산업납품 · 1개/틱':k==='store'?(H_GOODS.includes(p)?'가전소비자판매 · 도시전체2틱당1대':V_GOODS.includes(p)?'차량소비자판매 · 도시총량'+V_DEMAND[p]+'개/틱':'완제품 소비자판매 · 도시최대1개/틱'):k==='ad'?'완제품 브랜드 · 총수요 확대 없음':'원료별 입고예약·B2B 공유'}</small></button>`).join('')}</div>`;}
