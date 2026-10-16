@@ -6,6 +6,22 @@ An original Korean-language 2D idle supply-chain management prototype. Current v
 
 Connect a wood source, paper factory, warehouse and store to make your first sales. Expand through research into food, textiles, electronics, vehicles, data services and industrial sensors. The catalog has60 products:36 consumer products,1 industrial sensor product and23 inputs/intermediates. Shared inputs, city logistics, B2B, ownership and research compete for cash and the40-node-per-company limit.
 
+## Screenshots
+
+Captured from the public0.34.0 build using a test save with extra cash and research. These are not the user's real progress or average returns. The mobile view is Chromium touch emulation, not a real iPhone Safari capture.
+
+### 공급망 네트워크
+
+![공급망 네트워크](docs/1-network.png)
+
+### 시장과 수요
+
+![시장과 수요](docs/2-market.png)
+
+### 모바일 생산 검사
+
+<img src="docs/6-mobile.png" alt="모바일 생산 검사" width="390">
+
 ## Main systems
 
 - Two cities with separate markets and port-to-port transport.
