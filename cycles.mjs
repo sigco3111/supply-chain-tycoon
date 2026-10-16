@@ -1,7 +1,7 @@
 // A public, deterministic game schedule. No random reroll or real-market claims.
 export const CYCLE_START=9000,CYCLE_LENGTH=600,CYCLE_PHASES=['회복','호황','둔화','불황'];
 export const ESSENTIAL=['bread','yogurt','bottledmilk','cheese','meat'],DURABLE=['computer','smartphone','car','drone','television','gameconsole'];
-const FIXED={computer:1,smartphone:1,car:.25,drone:.5,television:.5,gameconsole:.5,cake:1,bottledmilk:2,cheese:1,fries:2,meat:1,burger:1};
+const FIXED={apparel:1,computer:1,smartphone:1,car:.25,drone:.5,television:.5,gameconsole:.5,cake:1,bottledmilk:2,cheese:1,fries:2,meat:1,burger:1};
 export function initCycle(s,legacy=false){if(s.cycle)return;s.cycle={version:1,installedTick:s.tick,startTick:legacy?Math.max(CYCLE_START,s.tick+600):CYCLE_START,budgets:{},history:[],counts:[0,0,0,0],lastIndex:-1};}
 export function cycleState(s,tick=s.tick){let start=s.cycle?.startTick??CYCLE_START,age=tick-start;if(age<0)return{active:false,index:-1,phase:-1,name:'준비',remaining:-age,next:'회복',warning:-age<=120,valuation:1};let index=Math.floor(age/CYCLE_LENGTH),phase=index%4,remaining=CYCLE_LENGTH-age%CYCLE_LENGTH;return{active:true,index,phase,name:CYCLE_PHASES[phase],remaining,next:CYCLE_PHASES[(phase+1)%4],warning:remaining<=120,valuation:phase===1?1.08:phase===3?.92:1};}
 export const cycleGroup=p=>p==='sensor'?'산업고정':ESSENTIAL.includes(p)?'필수식품':DURABLE.includes(p)?'내구·기술':'일반소비·서비스';
