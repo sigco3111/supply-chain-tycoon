@@ -1,6 +1,6 @@
-import {E_KINDS} from './electronics.mjs?v=0.22.0';
-import {FOOD_KINDS} from './food.mjs?v=0.22.0';
-import {paceError,playerGroup} from './pace.mjs?v=0.22.0';
+import {E_KINDS} from './electronics.mjs?v=0.23.0';
+import {FOOD_KINDS} from './food.mjs?v=0.23.0';
+import {paceError,playerGroup} from './pace.mjs?v=0.23.0';
 // Fictional integer-share ledger. No real-world money or external services.
 export const FINANCE_FEE=.02;
 export const IPO_MIN_TICKS=3600;
