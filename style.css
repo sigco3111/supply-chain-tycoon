@@ -64,3 +64,6 @@ body[data-view=market] .group-toolbar{display:none}
 #strategy-room .tech-card{min-width:0;overflow-wrap:anywhere}
 #strategy-room summary{min-height:44px;padding:12px 0;cursor:pointer}
 @media(max-width:650px){#strategy-room .build-grid{grid-template-columns:1fr}}
+.cycle-badge{display:block;width:100%;min-height:44px;padding:9px 14px;border-radius:0;border-width:0 0 1px;background:#101f30;color:#7fe0cc;font-size:12px;text-align:left;overflow-wrap:anywhere;flex-shrink:0}
+.cycle-notice{padding:12px;background:#102536;border:1px solid #31536a;border-radius:12px;overflow-wrap:anywhere}
+.cycle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
