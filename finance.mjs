@@ -1,9 +1,9 @@
-import{X_KINDS}from'./variations.mjs?v=0.33.0';
-import {cycleState} from './cycles.mjs?v=0.33.0';
-import {initStrategy,strategyEvent,acquireBasis,disposeBasis} from './strategy-ledger.mjs?v=0.33.0';
-import {E_KINDS} from './electronics.mjs?v=0.33.0';
-import {FOOD_KINDS} from './food.mjs?v=0.33.0';
-import {paceError,playerGroup} from './pace.mjs?v=0.33.0';
+import{X_KINDS}from'./variations.mjs?v=0.34.0';
+import {cycleState} from './cycles.mjs?v=0.34.0';
+import {initStrategy,strategyEvent,acquireBasis,disposeBasis} from './strategy-ledger.mjs?v=0.34.0';
+import {E_KINDS} from './electronics.mjs?v=0.34.0';
+import {FOOD_KINDS} from './food.mjs?v=0.34.0';
+import {paceError,playerGroup} from './pace.mjs?v=0.34.0';
 // Fictional integer-share ledger. No real-world money or external services.
 export const FINANCE_FEE=.02;
 export const IPO_MIN_TICKS=3600;
