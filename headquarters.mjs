@@ -1,7 +1,7 @@
 // Read-only management view. It never creates an economic node or changes a save.
-import {companies,TECHS} from './sim.mjs?v=0.32.0';
-import {groupCompanies,groupProfit} from './takeover.mjs?v=0.32.0';
-import {paceError,paceGoals} from './pace.mjs?v=0.32.0';
+import {companies,TECHS} from './sim.mjs?v=0.33.0';
+import {groupCompanies,groupProfit} from './takeover.mjs?v=0.33.0';
+import {paceError,paceGoals} from './pace.mjs?v=0.33.0';
 export const HQ_UNLOCK=3600;
 export function headquarters(s){
  const firms=companies(s),group=groupCompanies(s),ids=new Set(group.map(c=>c.id));
