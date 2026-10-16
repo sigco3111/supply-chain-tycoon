@@ -1,4 +1,4 @@
-import {M_GOODS,M_PRODUCTS,M_TECHS,M_KINDS,M_RECIPES,meatTech} from './meat.mjs?v=0.27.0';
+import {M_GOODS,M_PRODUCTS,M_TECHS,M_KINDS,M_RECIPES,meatTech} from './meat.mjs?v=0.28.0';
 export const F_NEW_RAW=['eggs','potato'];
 export const F_NEW_GOODS=['cake','bottledmilk','cheese','fries'];
 export const F_NEW_TECHS=['farmBranches','confectionery','dairyVariety','potatoProcessing'];
