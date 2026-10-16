@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import * as M from './sim.mjs?v=0.28.0';
-import {settleOffline} from './offline.mjs?v=0.28.0';
-import {observed} from './observatory.mjs?v=0.28.0';
-import {FOOD_PRODUCTS,FOOD_GOODS,FOOD_RECIPES} from './food.mjs?v=0.28.0';
+import * as M from './sim.mjs?v=0.29.0';
+import {settleOffline} from './offline.mjs?v=0.29.0';
+import {observed} from './observatory.mjs?v=0.29.0';
+import {FOOD_PRODUCTS,FOOD_GOODS,FOOD_RECIPES} from './food.mjs?v=0.29.0';
 const clone=structuredClone;
 function line(p,{double=true}={}){let s=M.createGame();s.tick=900;s.lastSettledAt=1000000;s.player.nodes=[];s.player.edges=[];s.player.cash=s.player.initialCash=300000;for(let c of M.rivals(s))c.status='bankrupt';s.player.research.unlocked=['process','agriculture',p==='bread'?'baking':p==='yogurt'?'dairy':'beverage'];let ks=p==='bread'?['wheatfarm','mill','bakery','warehouse','store']:p==='yogurt'?['dairyfarm','dairyplant','warehouse','store']:['grapefarm','juiceplant','warehouse','store'];for(let k of ks){let n=M.build(s,k,p,100+s.player.nodes.length*240,300);assert.equal(typeof n,'object');}for(let i=1;i<ks.length;i++)assert.equal(M.connect(s,s.player.nodes[i-1].id,s.player.nodes[i].id),null);if(double)assert(M.upgradeEdge(s,s.player.edges[0].id));return s;}
 let gate=M.createGame();gate.player.cash=100000;M.build(gate,'lab','paper',1,1);gate.player.research.unlocked=['process'];gate.tick=899;let before=gate.player.cash;assert(M.startResearch(gate,'agriculture'));assert.equal(gate.player.cash,before);gate.tick=900;assert.equal(M.startResearch(gate,'agriculture'),null);for(let t=0;t<90;t++)M.step(gate);assert(gate.player.research.unlocked.includes('agriculture'));assert.equal(M.startResearch(gate,'baking'),null);assert(M.startResearch(gate,'dairy'));assert.equal(typeof M.build(gate,'store','wheat',0,0),'string');assert.equal(typeof M.build(gate,'factory','bread',0,0),'string');assert.equal(typeof M.build(gate,'mill','flour',0,0),'string');for(let p of ['bread','yogurt','juice'])for(let city of ['hanbit','cheolwon'])assert.equal(M.cityMarket(gate,city).demand[p],2);for(let p of ['wheat','flour','milk','grapes'])assert(!M.GOODS.includes(p));
