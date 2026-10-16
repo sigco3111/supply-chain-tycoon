@@ -5,7 +5,7 @@ export const VARIANTS={
  jacket:item('재킷','sewingplant',{fabric:3,yarn:1},40,360,.5,'textile',['sewing']),
  towel:item('타월','sewingplant',{fabric:1,yarn:1},20,160,1,'textile',['sewing']),
  cookie:item('쿠키','foodworkshop',{flour:2,eggs:1},18,150,1,'food',['confectionery']),
- omelet:item('치즈 오믈렛','foodworkshop',{eggs:2,cheese:1},22,190,.5,'food',['farmBranches','dairyVariety']),
+ omelet:item('치즈 오믈렛','foodworkshop',{eggs:2,cheese:1},22,230,.5,'food',['farmBranches','dairyVariety']),
  sandwich:item('미트 샌드위치','foodworkshop',{bread:2,meat:1},28,320,.5,'food',['baking','meatProcessing']),
  tablet:item('태블릿','computerplant',{cpu:1,memory:1,display:1,battery:1},85,1150,.25,'electronics',['computing','electromaterials']),
  desk:item('사무용 책상','furnitureworkshop',{wood:3,metal:1},50,360,.5,'furniture',['electronics']),
@@ -13,9 +13,9 @@ export const VARIANTS={
  smartwatch:item('스마트워치','phoneplant',{electronic:1,display:1,battery:1},60,650,.5,'electronics',['mobile','electromaterials']),
  camera:item('디지털 카메라','computerplant',{cpu:1,memory:1,display:1},70,850,.25,'electronics',['computing','electromaterials']),
  router:item('네트워크 공유기','consoleplant',{module:1,electronic:2},60,900,.5,'electronics',['computeModule']),
- printer:item('프린터','consoleplant',{motor:1,electronic:2,chemicals:1},75,850,.25,'electronics',['motors','electronics']),
+ printer:item('프린터','consoleplant',{motor:1,electronic:2,chemicals:1},75,1150,.25,'electronics',['motors','electronics']),
  monitor:item('모니터','televisionplant',{display:1,electronic:1},55,530,.5,'electronics',['electromaterials']),
- vacuum:item('로봇청소기','phoneplant',{motor:1,battery:1,electronic:1},75,850,.25,'electronics',['motors','electromaterials']),
+ vacuum:item('로봇청소기','phoneplant',{motor:1,battery:1,electronic:1},75,1100,.25,'electronics',['motors','electromaterials']),
  projector:item('프로젝터','televisionplant',{display:1,cpu:1,electronic:2},90,1000,.25,'electronics',['semiconductor','electromaterials'])
 };
 export const X_GOODS=Object.keys(VARIANTS),X_PRODUCTS=Object.fromEntries(Object.entries(VARIANTS).map(([p,v])=>[p,{name:v.name,base:v.base,color:v.color}]));
