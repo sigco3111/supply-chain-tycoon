@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 let output=[];
 for(let variant of ['bread','yogurt','juice','agricultureFirst']){
- const M=await import(`./sim.mjs?v=0.23.0`),F=await import(`./finance.mjs?v=0.23.0`),T=await import(`./takeover.mjs?v=0.23.0`);
+ const M=await import(`./sim.mjs?v=0.24.0`),F=await import(`./finance.mjs?v=0.24.0`),T=await import(`./takeover.mjs?v=0.24.0`);
  for(let addSensor of [false])for(let [profile,delay,labs,order]of [['guided',120,1,variant==='agricultureFirst'?['process','agriculture','baking','logistics','packaging','cloud']:['process','logistics','packaging', 'agriculture',variant==='yogurt'?'dairy':variant==='juice'?'beverage':'baking','cloud']]]){
   let s=M.createGame(),events={},snapshots=[],connected=false;const record=(key)=>{events[key]??=s.tick;},link=(a,b)=>{let e=M.connect(s,a.id,b.id);if(e)throw Error(e);},n=(kind,product='paper',city='hanbit')=>{let x=M.build(s,kind,product,200,300,city);if(typeof x==='string')throw Error(x);return x;};
   function line(p){let ns=['mine','factory','warehouse','store'].map(k=>n(k,p));for(let i=0;i<3;i++)link(ns[i],ns[i+1]);return ns;}
