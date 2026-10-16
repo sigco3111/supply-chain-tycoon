@@ -1,9 +1,9 @@
-import {C_PRICES} from './clothing.mjs?v=0.30.0';
-import {M_PRICES} from './meat.mjs?v=0.30.0';
-import {H_GOODS} from './appliances.mjs?v=0.30.0';
-import {V_GOODS} from './vehicles.mjs?v=0.30.0';
-import {E_GOODS,E_PRODUCTS,E_PARTS,E_RECIPES,E_PRICES,eInputLimit} from './electronics.mjs?v=0.30.0';
-import {FOOD_PRODUCTS,FOOD_GOODS,FOOD_RECIPES} from './food.mjs?v=0.30.0';
+import {C_PRICES} from './clothing.mjs?v=0.31.0';
+import {M_PRICES} from './meat.mjs?v=0.31.0';
+import {H_GOODS} from './appliances.mjs?v=0.31.0';
+import {V_GOODS} from './vehicles.mjs?v=0.31.0';
+import {E_GOODS,E_PRODUCTS,E_PARTS,E_RECIPES,E_PRICES,eInputLimit} from './electronics.mjs?v=0.31.0';
+import {FOOD_PRODUCTS,FOOD_GOODS,FOOD_RECIPES} from './food.mjs?v=0.31.0';
 export const B2_PRODUCTS=[...Object.keys(FOOD_PRODUCTS),...Object.keys(E_PRODUCTS)];
 export const DEFAULT_TRADE_PRICES={...C_PRICES,...M_PRICES,eggs:9,potato:8,cake:135,bottledmilk:38,cheese:75,fries:38,...E_PRICES,wheat:8,milk:10,grapes:8,flour:24,bread:55,yogurt:64,juice:48};
 const firms=s=>[s.player,s.ai,...s.competitors],find=(s,id)=>firms(s).find(c=>c.id===id),node=(c,id)=>c?.nodes.find(n=>n.id===id),city=n=>n.city||'hanbit';
