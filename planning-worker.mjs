@@ -1,0 +1,1 @@
+import{runComparison}from'./planning.mjs?v=0.31.0';self.onmessage=async e=>{let{id,state,plan,ticks}=e.data;try{let result=await runComparison(state,plan,ticks,{progress:value=>self.postMessage({id,type:'progress',value})});self.postMessage({id,type:'done',result});}catch(error){self.postMessage({id,type:'error',message:error.message});}};
