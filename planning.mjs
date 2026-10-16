@@ -1,8 +1,8 @@
-import{VARIANTS,X_GOODS,recipeFor}from'./variations.mjs?v=0.33.0';
-import{savePolicy}from'./delegation.mjs?v=0.33.0';
-import{playerControls}from'./takeover.mjs?v=0.33.0';
-import{companies,CITIES,PRODUCTS,GOODS,RECIPES,capacity,limit,cityOf,outProduct,step,validate}from'./sim.mjs?v=0.33.0';
-import{E_RECIPES}from'./electronics.mjs?v=0.33.0';import{FOOD_RECIPES}from'./food.mjs?v=0.33.0';import{cycleState,effectiveDemand,cycleMultiplier}from'./cycles.mjs?v=0.33.0';import{setPlanningPolicy}from'./planning-policy.mjs?v=0.33.0';import*as M from'./sim.mjs?v=0.33.0';
+import{VARIANTS,X_GOODS,recipeFor}from'./variations.mjs?v=0.34.0';
+import{savePolicy}from'./delegation.mjs?v=0.34.0';
+import{playerControls}from'./takeover.mjs?v=0.34.0';
+import{companies,CITIES,PRODUCTS,GOODS,RECIPES,capacity,limit,cityOf,outProduct,step,validate}from'./sim.mjs?v=0.34.0';
+import{E_RECIPES}from'./electronics.mjs?v=0.34.0';import{FOOD_RECIPES}from'./food.mjs?v=0.34.0';import{cycleState,effectiveDemand,cycleMultiplier}from'./cycles.mjs?v=0.34.0';import{setPlanningPolicy}from'./planning-policy.mjs?v=0.34.0';import*as M from'./sim.mjs?v=0.34.0';
 export const productive=n=>!!(recipeFor(n)||E_RECIPES[n.kind]||FOOD_RECIPES[n.kind]||['mine','factory','supplier','assembler','collector','datacenter'].includes(n.kind));
 export function planningNodes(s,owner,city,product){let c=companies(s).find(c=>c.id===owner);if(!c||!playerControls(s,c)||!CITIES[city]||!PRODUCTS[product])return[];let needed=new Set([product]),changed=true;while(changed){changed=false;for(let n of c.nodes.filter(n=>cityOf(n)===city&&needed.has(outProduct(n)))){let inputs=recipeFor(n)?.inputs||E_RECIPES[n.kind]?.inputs||FOOD_RECIPES[n.kind]?.inputs||(n.kind==='factory'?{[RECIPES[n.product].input]:1}:n.kind==='assembler'?{component:2}:n.kind==='datacenter'?{data:2}:{});for(let p of Object.keys(inputs))if(!needed.has(p)){needed.add(p);changed=true;}}}return c.nodes.filter(n=>cityOf(n)===city&&needed.has(outProduct(n))&&productive(n));}
 export function makePlan(s,owner,city,product,phases=Array.from({length:4},()=>({mode:'keep',target:20}))){let nodes=planningNodes(s,owner,city,product);if(!nodes.length)throw Error('선택 상품의 운영 가능한 생산설비가 없습니다.');let p={owner,city,product,phases:structuredClone(phases),nodes:nodes.map(n=>({id:n.id,kind:n.kind,product:n.product})),sinceTick:s.tick};return p;}
