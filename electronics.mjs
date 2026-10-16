@@ -1,6 +1,7 @@
-import {H_GOODS,H_PRODUCTS,H_PRICES,H_TECHS,H_KINDS,H_RECIPES,hTech} from './appliances.mjs?v=0.26.0';
-import {V_GOODS,V_PRODUCTS,V_PRICES,V_TECHS,V_KINDS,V_RECIPES,vTech} from './vehicles.mjs?v=0.26.0';
-import {FOOD_RECIPES,F_NEW_GOODS} from './food.mjs?v=0.26.0';
+import {M_PRODUCTS} from './meat.mjs?v=0.27.0';
+import {H_GOODS,H_PRODUCTS,H_PRICES,H_TECHS,H_KINDS,H_RECIPES,hTech} from './appliances.mjs?v=0.27.0';
+import {V_GOODS,V_PRODUCTS,V_PRICES,V_TECHS,V_KINDS,V_RECIPES,vTech} from './vehicles.mjs?v=0.27.0';
+import {FOOD_RECIPES,F_NEW_GOODS} from './food.mjs?v=0.27.0';
 // Original compressed game recipes, not real-world manufacturing specifications.
 export const E_GOODS=['computer','smartphone'];
 export const A_TECHS=['computing','computeModule','mobile'];
@@ -21,7 +22,7 @@ export function validateElectronics(s,M){if(s.electronicsVersion!==1||!s.industr
 // A small funded specialist plan. Existing manufacturing is never removed to finance electronics.
 export function electronicsAI(s,M){if(s.tick<2700||s.tick%60)return;for(let [id,kind]of [['r1','cpufab'],['r0','electronicplant']]){let c=M.companies(s).find(c=>c.id===id);if(!c||c.controller||!M.activeCompany(s,c)||c.stopped||c.cash<180000||c.nodes.length>34)continue;let r=E_RECIPES[kind];if(!c.nodes.some(n=>n.kind==='lab'))M.build(s,'lab','paper',900,600,'cheolwon',c);if(!c.research.active){let next=['process','logistics','electronics',r.tech].find(k=>!c.research.unlocked.includes(k));if(next)M.startResearch(s,next,c);}if(!c.research.unlocked.includes(r.tech)||c.nodes.some(n=>n.kind===kind))continue;let inputCost=Object.entries(r.inputs).reduce((v,[p,q])=>v+q*E_PRICES[p],0),output=E_PRODUCTS[r.output].base;if(output-inputCost-r.cost-E_KINDS[kind].fixed-7<15)continue;let city='cheolwon',inputs=Object.keys(r.inputs),nodes=[];for(let [i,p]of inputs.entries()){let k=Object.keys(E_RECIPES).find(k=>E_RECIPES[k].output===p),n=M.build(s,k,p,160+i*260,1150,city,c);if(typeof n==='string')break;nodes.push(n);}if(nodes.length!==inputs.length)continue;let a=M.build(s,kind,r.output,440,1400,city,c),sink=M.build(s,'electronicsink',r.output,760,1400,city,c);if(typeof a==='string'||typeof sink==='string')continue;for(let n of nodes)M.connect(s,n.id,a.id,c);M.connect(s,a.id,sink.id,c);}}
 // Multi-input ports keep a four-tick ingredient buffer, so one input cannot fill every slot and starve another.
-export function eInputLimit(n,p,capacity,limit){let r=E_RECIPES[n.kind]||(F_NEW_GOODS.includes(FOOD_RECIPES[n.kind]?.output)?FOOD_RECIPES[n.kind]:null);if(!r?.inputs[p])return limit;let total=Object.values(r.inputs).reduce((a,b)=>a+b,0);return Math.min(r.inputs[p]*capacity*4,Math.floor((limit-Math.max(1,capacity))*r.inputs[p]/total));}
+export function eInputLimit(n,p,capacity,limit){let r=E_RECIPES[n.kind]||([...F_NEW_GOODS,...Object.keys(M_PRODUCTS)].includes(FOOD_RECIPES[n.kind]?.output)?FOOD_RECIPES[n.kind]:null);if(!r?.inputs[p])return limit;let total=Object.values(r.inputs).reduce((a,b)=>a+b,0);return Math.min(r.inputs[p]*capacity*4,Math.floor((limit-Math.max(1,capacity))*r.inputs[p]/total));}
 
 // 2B household demand is dormant until its first completed research. No old market changes.
 export function initAssemblyCompany(c,M){initElectronicsCompany(c,M);for(let city of Object.keys(M.CITIES)){let b=M.cityBook(c,city);for(let p of E_GOODS){b.price[p]??=E_PRODUCTS[p].base;for(let k of ['brand','sales','daily'])b[k][p]??=0;}}}
