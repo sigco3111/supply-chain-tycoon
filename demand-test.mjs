@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';import fs from 'node:fs';import * as m from './sim.mjs?v=0.24.0';import{settleOffline}from'./offline.mjs?v=0.24.0';
+import assert from 'node:assert/strict';import fs from 'node:fs';import * as m from './sim.mjs?v=0.25.0';import{settleOffline}from'./offline.mjs?v=0.25.0';
 function fixture(){let s=m.createGame();s.demand.paper=1;s.tick=4000;let cs=m.companies(s);for(let c of cs){c.status='active';c.controller=null;c.stopped=false;c.activationTick=0;c.price.paper=120;c.brand.paper=0;for(let n of c.nodes){n.stock.paper=0;n.city='hanbit';n.product=n.kind==='store'?'paper':n.product;}}return s;}
 let s=fixture(),cs=m.companies(s).slice(0,3);for(let c of m.companies(s).slice(3))c.stopped=true;let totals=[0,0,0];for(let t=0;t<300;t++){for(let c of cs)c.nodes.find(n=>n.kind==='store').stock.paper=2;m.sell(s,'paper');for(let i=0;i<3;i++)totals[i]+=cs[i].sales.paper;}assert.deepEqual(totals,[100,100,100]);console.log('equal totals',totals);
 // Ineligible company cannot bank demand during stockout and return to claim old debt.
