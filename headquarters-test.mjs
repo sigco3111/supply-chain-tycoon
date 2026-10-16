@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {createGame,step,connect,companies,validate,migrate} from './sim.mjs?v=0.29.0';
-import {headquarters,HQ_UNLOCK} from './headquarters.mjs?v=0.29.0';
-import {settleOffline} from './offline.mjs?v=0.29.0';
+import {createGame,step,connect,companies,validate,migrate} from './sim.mjs?v=0.30.0';
+import {headquarters,HQ_UNLOCK} from './headquarters.mjs?v=0.30.0';
+import {settleOffline} from './offline.mjs?v=0.30.0';
 const clone=structuredClone;
 let s=createGame();for(let i=0;i<3;i++)assert.equal(connect(s,s.player.nodes[i].id,s.player.nodes[i+1].id),null);
 s.tick=3599;assert.equal(headquarters(s).unlocked,false);s.tick=3600;assert.equal(headquarters(s).unlocked,true);assert.equal(HQ_UNLOCK,3600);let before=JSON.stringify(s);for(let i=0;i<100;i++)headquarters(s);assert.equal(JSON.stringify(s),before);assert.equal(s.player.nodes.length,4);
