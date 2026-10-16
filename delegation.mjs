@@ -1,4 +1,4 @@
-import{cycleState}from'./cycles.mjs?v=0.33.0';
+import{cycleState}from'./cycles.mjs?v=0.34.0';
 const modes=['keep','pause','target'],int=(n,a=0,b=1e12)=>Number.isSafeInteger(n)&&n>=a&&n<=b;
 export const initDelegation=s=>s.delegation??={version:1,nextId:1,policies:[],events:[],totals:{purchases:0,investments:0,actions:0,holds:0},lastTick:s.tick};
 export const orderKey=o=>JSON.stringify([o.buyer,o.product,o.seller,o.from,o.to,o.city,o.price,o.target,o.cap,o.enabled,o.control,o.supplierControl]);

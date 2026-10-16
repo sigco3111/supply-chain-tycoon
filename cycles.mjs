@@ -1,4 +1,4 @@
-import{VARIANTS,X_GOODS}from'./variations.mjs?v=0.33.0';
+import{VARIANTS,X_GOODS}from'./variations.mjs?v=0.34.0';
 // A public, deterministic game schedule. No random reroll or real-market claims.
 export const CYCLE_START=9000,CYCLE_LENGTH=600,CYCLE_PHASES=['회복','호황','둔화','불황'];
 export const ESSENTIAL=[...X_GOODS.filter(p=>VARIANTS[p].group==='food'),'bread','yogurt','bottledmilk','cheese','meat'],DURABLE=[...X_GOODS.filter(p=>['electronics','furniture'].includes(VARIANTS[p].group)),'computer','smartphone','car','drone','television','gameconsole'];

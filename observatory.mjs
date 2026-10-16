@@ -1,6 +1,6 @@
-import{VARIANTS,X_GOODS,recipeFor}from'./variations.mjs?v=0.33.0';
-import {C_PRODUCTS} from './clothing.mjs?v=0.33.0';
-import {E_PRODUCTS,E_RECIPES} from './electronics.mjs?v=0.33.0';
+import{VARIANTS,X_GOODS,recipeFor}from'./variations.mjs?v=0.34.0';
+import {C_PRODUCTS} from './clothing.mjs?v=0.34.0';
+import {E_PRODUCTS,E_RECIPES} from './electronics.mjs?v=0.34.0';
 const trustedSamples=new WeakSet();
 function seal(a){for(let k of ['rows','firms','markets','b2','industry']){for(let r of (a[k]||[]))Object.freeze(r);if(a[k])Object.freeze(a[k]);}Object.freeze(a);trustedSamples.add(a);return a;}
 // Observations begin when this extension is installed. No backfilled history.
